@@ -23,3 +23,6 @@ https://www.leychile.cl/Consulta/legislacion_abierta_web_service
 
 Como se aprecia en el código las librerías utilizadas para accesar los nodos consultados del documento XML, permiten un
 direccionamiento directo una vez que se conoce la ruta de los datos que se desean rescatar.
+
+
+![](https://raw.githubusercontent.com/ivansaldivar/java-samples/master/en_accion.png)
