@@ -13,3 +13,13 @@ Para este ejemplo se utilizaron las librerías:
 - import javax.xml.transform.TransformerFactory;
 - import javax.xml.transform.dom.DOMSource;
 - import javax.xml.transform.stream.StreamResult;
+
+En este ejemplo, se puede apreciar la navegación por tres ejemplos de documentos XML, el tercero corresponde a uno que se obtiene
+de consultar un servicio WEB de acceso público (Biblioteca del Congreso Nacional de Chile). Si desean probar con otras consultas
+del mismo servicio deben referirse a la siguiente URL:
+
+https://www.leychile.cl/Consulta/legislacion_abierta_web_service
+
+
+Como se aprecia en el código las librerías utilizadas para accesar los nodos consultados del documento XML, permiten un
+direccionamiento directo una vez que se conoce la ruta de los datos que se desean rescatar.
