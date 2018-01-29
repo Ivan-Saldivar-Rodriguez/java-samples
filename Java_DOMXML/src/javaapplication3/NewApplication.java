@@ -272,19 +272,19 @@ public class NewApplication extends javax.swing.JFrame {
             }
             System.out.println(tituloNorma);
 
-            nodes2 = element.getElementsByTagName("Materias");
-
-            for (int j = 0; j < nodes2.getLength(); j++) {
-              Element element2 = (Element) nodes.item(j);
-
-              NodeList name2 = element2.getElementsByTagName("Materia");
-              line = (Element) name2.item(0);
-              if(line != null){
-                  materias2 = materias2 + "\n- materia= " + getCharacterDataFromElement(line);
-              }
-            }
         }
-          
+
+        nodes2 = doc.getElementsByTagName("Materia");
+
+        for (int j = 0; j < nodes2.getLength(); j++) {
+          Element element2 = (Element) nodes2.item(j);
+
+          String data = element2.getFirstChild().getNodeValue();  //Item(0).getNodeValue();
+          if(data != null ){
+              materias2 = materias2 + "\n- materia= " + data;
+          }
+        }
+            
         acumulado = this.jTextArea1.getText();
         this.jTextArea1.setText(tituloNorma + materias2 + "\n" + convertDocumentToString(doc));          
     } 
