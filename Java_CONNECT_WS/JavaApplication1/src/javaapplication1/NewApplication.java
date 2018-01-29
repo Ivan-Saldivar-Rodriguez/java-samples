@@ -73,14 +73,12 @@ public class NewApplication extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton2.setText("exec WS Ficha Residencial");
+        jButton2.setText("exec método de WS ");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -91,8 +89,6 @@ public class NewApplication extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextPane1);
         jTextPane1.getAccessibleContext().setAccessibleName("");
         jTextPane1.getAccessibleContext().setAccessibleDescription("text/xml; charset=utf-8");
-
-        jLabel1.setText("CÓDIGO PROYECTO");
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -106,11 +102,8 @@ public class NewApplication extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
-                    .addComponent(jTextField1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE))
                 .addContainerGap())
@@ -121,11 +114,7 @@ public class NewApplication extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(jButton2)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
                 .addContainerGap())
@@ -144,14 +133,14 @@ public class NewApplication extends javax.swing.JFrame {
                         Document doc;
                         NodeList nodes;
        
-        
                         String outputFull="";
-                        String codigo_proyecto = "0";
                         
-                        codigo_proyecto = jTextField1.getText();
-                                
+                        
+                        //AQUÍ VAMOS A PROBAR EL CONSUMO DE UN SERVICIO WEB DE LA BIBLIOTECA DEL CONGRESO DE CHILE
+                        //MÁS REFERENCIAS PARA PROBAR OTRAS OPCIONES EN: https://www.leychile.cl/Consulta/legislacion_abierta_web_service
 			DefaultHttpClient httpClient = new DefaultHttpClient();
-			HttpGet getRequest = new HttpGet("http://ws-historialninostest.senainfo.cl:8080/service.asmx/GetFichaResidencialXML?codProyecto="+codigo_proyecto);
+			HttpGet getRequest = new HttpGet("https://www.leychile.cl/Consulta/obtxml?opt=3&cantidad=5");
+                        
 			//getRequest.addHeader("accept", "application/xml");
                         //getRequest.addHeader("Content-Type","text/xml; charset=utf-8");
                         getRequest.setHeader("Content-Type", "text/xml; charset=utf-8");
@@ -265,11 +254,9 @@ public class NewApplication extends javax.swing.JFrame {
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
 
