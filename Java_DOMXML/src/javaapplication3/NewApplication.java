@@ -258,7 +258,7 @@ public class NewApplication extends javax.swing.JFrame {
         */
         Element line = null;
         //cuando usamos el xmlRecords3
-        String tituloNorma="", materias=""; 
+        String tituloNorma="", materias="", identificacionFuente=""; 
         
         nodes = doc.getElementsByTagName("Metadatos");
 
@@ -272,6 +272,12 @@ public class NewApplication extends javax.swing.JFrame {
             }
             System.out.println(tituloNorma);
 
+            name = element.getElementsByTagName("IdentificacionFuente");
+            line = (Element) name.item(0);
+            if(line != null){
+                identificacionFuente = "\nIdentificacionFuente: " + getCharacterDataFromElement(line);
+            }
+            System.out.println(identificacionFuente);
         }
 
         nodes2 = doc.getElementsByTagName("Materia");
@@ -286,7 +292,7 @@ public class NewApplication extends javax.swing.JFrame {
         }
             
         acumulado = this.jTextArea1.getText();
-        this.jTextArea1.setText(tituloNorma + materias2 + "\n" + convertDocumentToString(doc));          
+        this.jTextArea1.setText(tituloNorma + materias2 + identificacionFuente + "\n" + convertDocumentToString(doc));          
     } 
     
     
