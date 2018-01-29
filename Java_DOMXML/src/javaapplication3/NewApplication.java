@@ -65,8 +65,8 @@ public class NewApplication extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextPane1 = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,9 +77,7 @@ public class NewApplication extends javax.swing.JFrame {
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        jScrollPane2.setViewportView(jTextPane1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -88,10 +86,10 @@ public class NewApplication extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 307, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -99,8 +97,8 @@ public class NewApplication extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -258,12 +256,13 @@ public class NewApplication extends javax.swing.JFrame {
         */
         Element line = null;
         //cuando usamos el xmlRecords3
-        String tituloNorma="", materias="", identificacionFuente=""; 
+        String tituloNorma="", materias="", identificacionFuente="", numeroFuente=""; 
         
         nodes = doc.getElementsByTagName("Metadatos");
 
-        for (int i = 0; i < nodes.getLength(); i++) {
-            Element element = (Element) nodes.item(i);
+        if(nodes.getLength() > 0){
+        //for (int i = 0; i < nodes.getLength(); i++) {
+            Element element = (Element) nodes.item(0);
 
             NodeList name = element.getElementsByTagName("TituloNorma");
             line = (Element) name.item(0);
@@ -278,6 +277,13 @@ public class NewApplication extends javax.swing.JFrame {
                 identificacionFuente = "\nIdentificacionFuente: " + getCharacterDataFromElement(line);
             }
             System.out.println(identificacionFuente);
+            
+            name = element.getElementsByTagName("NumeroFuente");
+            line = (Element) name.item(0);
+            if(line != null){
+                numeroFuente = "\nNumeroFuente: " + getCharacterDataFromElement(line);
+            }
+            System.out.println(identificacionFuente);            
         }
 
         nodes2 = doc.getElementsByTagName("Materia");
@@ -291,8 +297,9 @@ public class NewApplication extends javax.swing.JFrame {
           }
         }
             
-        acumulado = this.jTextArea1.getText();
-        this.jTextArea1.setText(tituloNorma + materias2 + identificacionFuente + "\n" + convertDocumentToString(doc));          
+        acumulado = this.jTextPane1.getText();
+        this.jTextPane1.setText(tituloNorma + materias2 + identificacionFuente + numeroFuente+ "\n\nDOC XML FULL= \n" + convertDocumentToString(doc));
+        
     } 
     
     
@@ -338,8 +345,8 @@ public class NewApplication extends javax.swing.JFrame {
      
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
 
 }
