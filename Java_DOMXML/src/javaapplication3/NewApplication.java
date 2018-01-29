@@ -279,7 +279,7 @@ public class NewApplication extends javax.swing.JFrame {
         for (int j = 0; j < nodes2.getLength(); j++) {
           Element element2 = (Element) nodes2.item(j);
 
-          String data = element2.getFirstChild().getNodeValue();  //Item(0).getNodeValue();
+          String data = element2.getFirstChild().getNodeValue();
           if(data != null ){
               materias2 = materias2 + "\n- materia= " + data;
           }
