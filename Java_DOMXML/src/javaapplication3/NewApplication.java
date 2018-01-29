@@ -5,7 +5,9 @@
  */
 package javaapplication3;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -154,22 +156,65 @@ public class NewApplication extends javax.swing.JFrame {
     }
 
     public void fx() throws SAXException, IOException, ParserConfigurationException{
-        String xmlRecords = "<?xml version=\"1.0\" encoding=\"utf-8\"?><data><employee><name>A</name><title>Manager</title></employee><employee><name>B</name><title>the Boss</title></employee></data>";
+        String xmlRecords = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"+
+                            "<data>"+
+                            "<employee><name>A</name><title>Manager</title></employee>"+
+                            "<employee><name>B</name><title>the Boss</title></employee>"+
+                            "</data>";
 
         String xmlRecords2 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"+
-        "<FICHA_RESIDENCIAL><ESTATUS><CODIGO>4</CODIGO>"+
-        "<GLOSA>VALOR DE PARÁMETRO NO ESTÁ DENTRO DEL DOMINIO DE VALORES PERMITIDOS (ENTEROS).</GLOSA>"+
-        "</ESTATUS>"+
-        "</FICHA_RESIDENCIAL>";
+                             "<FICHA_RESIDENCIAL><ESTATUS><CODIGO>4</CODIGO>"+
+                             "<GLOSA>VALOR DE PARÁMETRO NO ESTÁ DENTRO DEL DOMINIO DE VALORES PERMITIDOS (ENTEROS).</GLOSA>"+
+                             "</ESTATUS>"+
+                             "</FICHA_RESIDENCIAL>";
 
+        String xmlRecords3 = "";
+        
+        //AQUÍ VAMOS A PROBAR EL CONSUMO DE UN SERVICIO WEB DE LA BIBLIOTECA DEL CONGRESO DE CHILE
+        //MÁS REFERENCIAS PARA PROBAR OTRAS OPCIONES EN: https://www.leychile.cl/Consulta/legislacion_abierta_web_service
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        HttpGet getRequest = new HttpGet("https://www.leychile.cl/Consulta/obtxml?opt=7;idNorma=206396");
+                        
+ 
+        //getRequest.addHeader("accept", "application/xml");
+        //getRequest.addHeader("Content-Type","text/xml; charset=utf-8");
+        getRequest.setHeader("Content-Type", "text/xml; charset=utf-8");
+
+        HttpResponse response = httpClient.execute(getRequest);
+
+        if (response.getStatusLine().getStatusCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                                + response.getStatusLine().getStatusCode());
+        }
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(
+                        (response.getEntity().getContent())));
+
+        String output;
+        System.out.println("Output from Server .... \n");
+        while ((output = br.readLine()) != null) {
+                xmlRecords3 = xmlRecords3 + output.trim();
+        }
+        xmlRecords3.replaceAll("\n|\r","");
+        //System.out.println(xmlRecords3);
+                        
         DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         InputSource is = new InputSource();
 
         Document doc;
-        NodeList nodes;
-        String acumulado="", codigo="", glosa="";
+        NodeList nodes, nodes2;
+        String acumulado="", codigo="", glosa="", materias2="";
         
+
+        is.setCharacterStream(new StringReader(xmlRecords3));
+
+        doc = db.parse(is);
+        //System.out.println(doc.getXmlEncoding());
+        System.out.println( convertDocumentToString(doc) );
+        
+        ////////////////////////////////////////////////
         /*
+        //cuando usamos el xmlRecords1
         is.setCharacterStream(new StringReader(xmlRecords));
 
         Document doc = db.parse(is);
@@ -185,16 +230,12 @@ public class NewApplication extends javax.swing.JFrame {
           NodeList title = element.getElementsByTagName("title");
           line = (Element) title.item(0);
           System.out.println("Title: " + getCharacterDataFromElement(line));
-        }
+        }        
         */
-
-
-        is.setCharacterStream(new StringReader(xmlRecords2));
-
-        doc = db.parse(is);
-        System.out.println(doc.getXmlEncoding());
-        System.out.println( convertDocumentToString(doc) );
         
+        ////////////////////////////////////////////////
+        /*
+        //cuando usamos el xmlRecords2
         nodes = doc.getElementsByTagName("ESTATUS");
 
         for (int i = 0; i < nodes.getLength(); i++) {
@@ -213,8 +254,41 @@ public class NewApplication extends javax.swing.JFrame {
           acumulado = this.jTextArea1.getText();
           this.jTextArea1.setText(acumulado + "CODIGO: " + codigo + "\nGLOSA: " + glosa + "\n" + convertDocumentToString(doc));
           
-        }    
-    }
+        } 
+        */
+        Element line = null;
+        //cuando usamos el xmlRecords3
+        String tituloNorma="", materias=""; 
+        
+        nodes = doc.getElementsByTagName("Metadatos");
+
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Element element = (Element) nodes.item(i);
+
+            NodeList name = element.getElementsByTagName("TituloNorma");
+            line = (Element) name.item(0);
+            if(line != null){
+                tituloNorma = "TituloNorma: " + getCharacterDataFromElement(line);
+            }
+            System.out.println(tituloNorma);
+
+            nodes2 = element.getElementsByTagName("Materias");
+
+            for (int j = 0; j < nodes2.getLength(); j++) {
+              Element element2 = (Element) nodes.item(j);
+
+              NodeList name2 = element2.getElementsByTagName("Materia");
+              line = (Element) name2.item(0);
+              if(line != null){
+                  materias2 = materias2 + "\n- materia= " + getCharacterDataFromElement(line);
+              }
+            }
+        }
+          
+        acumulado = this.jTextArea1.getText();
+        this.jTextArea1.setText(tituloNorma + materias2 + "\n" + convertDocumentToString(doc));          
+    } 
+    
     
   public static String getCharacterDataFromElement(Element e) {
     Node child = e.getFirstChild();

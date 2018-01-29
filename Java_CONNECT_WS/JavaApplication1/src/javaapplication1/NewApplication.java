@@ -162,6 +162,7 @@ public class NewApplication extends javax.swing.JFrame {
 			}
                         outputFull.replaceAll("\n|\r","");
                         System.out.println(outputFull);
+                        
                         is.setCharacterStream(new StringReader(outputFull));
                         doc = db.parse(is);
                    
