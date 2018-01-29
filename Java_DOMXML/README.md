@@ -19,3 +19,7 @@ de consultar un servicio WEB de acceso público (Biblioteca del Congreso Naciona
 del mismo servicio deben referirse a la siguiente URL:
 
 https://www.leychile.cl/Consulta/legislacion_abierta_web_service
+
+
+Como se aprecia en el código las librerías utilizadas para accesar los nodos consultados del documento XML, permiten un
+direccionamiento directo una vez que se conoce la ruta de los datos que se desean rescatar.
